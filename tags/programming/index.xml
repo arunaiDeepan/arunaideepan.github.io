@@ -1,30 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>arunaiDeepan</title>
-    <link>https://arunaideepan.github.io/portfolio/</link>
-    <description>Recent content on arunaiDeepan</description>
+    <title>programming on arunaiDeepan</title>
+    <link>https://arunaideepan.github.io/portfolio/tags/programming/</link>
+    <description>Recent content in programming on arunaiDeepan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 12 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://arunaideepan.github.io/portfolio/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Software Engineer</title>
-      <link>https://arunaideepan.github.io/portfolio/experience/lightcast/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://arunaideepan.github.io/portfolio/experience/lightcast/</guid>
-      <description>Lightcast | Chennai - Tamil Nadu, India</description>
-    </item>
-    
-    <item>
-      <title>Software Engineer Intern</title>
-      <link>https://arunaideepan.github.io/portfolio/experience/checktronix/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://arunaideepan.github.io/portfolio/experience/checktronix/</guid>
-      <description>Lightcast</description>
-    </item>
-    
+    <lastBuildDate>Thu, 12 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://arunaideepan.github.io/portfolio/tags/programming/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>LD_PRELOAD - The Linux Hack That Feels Like Black Magic</title>
       <link>https://arunaideepan.github.io/portfolio/experience/blog/blog-1/</link>
@@ -34,7 +16,6 @@
       <description>LD_PRELOAD: Unleashing Your Inner Linux Wizard🐧 Imagine having a superpower that lets you secretly modify how any program runs, without touching its source code. Welcome to the wild world of LD_PRELOAD, the coolest trick in the Linux hacker&amp;rsquo;s toolkit!
 What the Heck is LD_PRELOAD? Think of LD_PRELOAD as a sneaky library loader that whispers to your system, &amp;ldquo;Hey, I want to intercept and modify library calls before the program even knows what&amp;rsquo;s happening.</description>
     </item>
-    
     
   </channel>
 </rss>
