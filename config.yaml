@@ -41,7 +41,6 @@ params:
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
   hideMeta: false
-
   # for enchanced SEO
   env: production
 
