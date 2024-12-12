@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>LD_PRELOAD - The Linux Hack That Feels Like Black Magic | arunaiDeepan</title>
+<meta name="keywords" content="linux, hacking, programming, system programming">
+<meta name="description" content="LD_PRELOAD: Unleashing Your Inner Linux Wizard🐧 Imagine having a superpower that lets you secretly modify how any program runs, without touching its source code. Welcome to the wild world of LD_PRELOAD, the coolest trick in the Linux hacker&rsquo;s toolkit!
+What the Heck is LD_PRELOAD? Think of LD_PRELOAD as a sneaky library loader that whispers to your system, &ldquo;Hey, I want to intercept and modify library calls before the program even knows what&rsquo;s happening.">
+<meta name="author" content="Arunai">
+<link rel="canonical" href="https://arunaideepan.github.io/portfolio/blog/blog-1/">
+<link crossorigin="anonymous" href="/portfolio/assets/css/stylesheet.min.a72801f0f40a8d7f71aa1cafd1c2f2a993a1f26ca1cfd38fdba65d5b9b0f08a0.css" integrity="sha256-pygB8PQKjX9xqhyv0cLyqZOh8myhz9OP26ZdW5sPCKA=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/portfolio/assets/js/highlight.min.b95bacdc39e37a332a9f883b1e78be4abc1fdca2bc1f2641f55e3cd3dabd4d61.js" integrity="sha256-uVus3DnjejMqn4g7Hni&#43;Srwf3KK8HyZB9V4809q9TWE="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://arunaideepan.github.io/portfolio/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://arunaideepan.github.io/portfolio/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://arunaideepan.github.io/portfolio/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://arunaideepan.github.io/portfolio/apple-touch-icon.png">
+<link rel="mask-icon" href="https://arunaideepan.github.io/portfolio/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="LD_PRELOAD - The Linux Hack That Feels Like Black Magic" />
+<meta property="og:description" content="LD_PRELOAD: Unleashing Your Inner Linux Wizard🐧 Imagine having a superpower that lets you secretly modify how any program runs, without touching its source code. Welcome to the wild world of LD_PRELOAD, the coolest trick in the Linux hacker&rsquo;s toolkit!
+What the Heck is LD_PRELOAD? Think of LD_PRELOAD as a sneaky library loader that whispers to your system, &ldquo;Hey, I want to intercept and modify library calls before the program even knows what&rsquo;s happening." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://arunaideepan.github.io/portfolio/blog/blog-1/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2024-12-12T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-12-12T00:00:00&#43;00:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="LD_PRELOAD - The Linux Hack That Feels Like Black Magic"/>
+<meta name="twitter:description" content="LD_PRELOAD: Unleashing Your Inner Linux Wizard🐧 Imagine having a superpower that lets you secretly modify how any program runs, without touching its source code. Welcome to the wild world of LD_PRELOAD, the coolest trick in the Linux hacker&rsquo;s toolkit!
+What the Heck is LD_PRELOAD? Think of LD_PRELOAD as a sneaky library loader that whispers to your system, &ldquo;Hey, I want to intercept and modify library calls before the program even knows what&rsquo;s happening."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Blogs",
+      "item": "https://arunaideepan.github.io/portfolio/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "LD_PRELOAD - The Linux Hack That Feels Like Black Magic",
+      "item": "https://arunaideepan.github.io/portfolio/blog/blog-1/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "LD_PRELOAD - The Linux Hack That Feels Like Black Magic",
+  "name": "LD_PRELOAD - The Linux Hack That Feels Like Black Magic",
+  "description": "LD_PRELOAD: Unleashing Your Inner Linux Wizard🐧 Imagine having a superpower that lets you secretly modify how any program runs, without touching its source code. Welcome to the wild world of LD_PRELOAD, the coolest trick in the Linux hacker\u0026rsquo;s toolkit!\nWhat the Heck is LD_PRELOAD? Think of LD_PRELOAD as a sneaky library loader that whispers to your system, \u0026ldquo;Hey, I want to intercept and modify library calls before the program even knows what\u0026rsquo;s happening.",
+  "keywords": [
+    "linux", "hacking", "programming", "system programming"
+  ],
+  "articleBody": "LD_PRELOAD: Unleashing Your Inner Linux Wizard🐧 Imagine having a superpower that lets you secretly modify how any program runs, without touching its source code. Welcome to the wild world of LD_PRELOAD, the coolest trick in the Linux hacker’s toolkit!\nWhat the Heck is LD_PRELOAD? Think of LD_PRELOAD as a sneaky library loader that whispers to your system, “Hey, I want to intercept and modify library calls before the program even knows what’s happening.” It’s like being a digital ninja, silently modifying program behavior.\nHow Does This Magic Work? When you set LD_PRELOAD, you’re telling the dynamic linker: “Load my library first, before any other libraries.” This means:\nYour custom library gets priority You can override system functions You can add superpowers to existing programs Technical Deep Dive: Dynamic Linking Explained Before diving into the code, let’s understand how dynamic linking works:\nDynamic Linker (ld.so): Responsible for loading shared libraries at runtime Symbol Resolution: Finds and links function calls to their correct implementations Library Search Path: /etc/ld.so.conf LD_LIBRARY_PATH environment variable Default system paths Simple example Let’s dive deep into a practical example of LD_PRELOAD that demonstrates its true power. We’ll create a program that secretly injects a joke into every printf call without modifying the original source code!\nThe Code Breakdown // interceptor.c #include #include #include // define a function pointer type for printf typedef int (*printf_func)(const char *format, ...); int printf(const char *format, ...) { // dynamic loading of the real printf static printf_func real_printf = NULL; if (!real_printf) { void *handle = dlopen(\"libc.so.6\", RTLD_LAZY); real_printf = dlsym(handle, \"printf\"); } // prepare variadic arguments va_list args; va_start(args, format); // call the original printf int result = real_printf(format, args); // inject our programmer joke real_printf(\"\\nWhich body part does a programmer know best?\\nA: ARM\\n\"); va_end(args); return result; } Let’s Break Down the program Dynamic Function Interception\nWe create a custom printf function that looks exactly like the system’s printf dlopen() and dlsym() are used to find the original printf function This allows us to call the original function while adding our own twist Variadic Argument Handling\nva_list, va_start(), and va_end() let us handle functions with variable arguments This is crucial for intercepting printf, which can take any number of arguments Compilation Incantation\ngcc -shared -fPIC interceptor.c -o funprintf.so -ldl -shared: Create a shared library -fPIC: Position Independent Code (required for shared libraries) -ldl: Link against the dynamic loading library Practical Spell Casting 🧙‍♂️ To use our magic:\n// test-printf.c #include int main(){ printf(\"hello\"); return 0; } gcc -shared -fPIC interceptor.c -o funprintf.so -ldl # complie test program gcc test-printf.c -o test export LD_PRELOAD=./funprintf.so # run with our printf interceptor ./test hello Which body part does a programmer know best? A: ARM Under the Hood: What’s Really Happening? The dynamic linker loads our library first Our printf function gets called instead of the system’s We execute the original printf Then we sneak in our joke Practical Use Cases Debugging:\nInject logging without source code modification Override error handling Create custom error reporting mechanisms Security and Monitoring:\nTrack function calls Intercept system calls to log activities Create custom access controls Implement lightweight sandboxing Humor Injection: As demonstrated (most important, obviously!)\nPerformance Profiling:\nMeasure function execution times Track resource usage Create custom profiling tools Legacy System Modifications: Add features without recompiling\nSafety and Caution Intercepting system calls can lead to unexpected behavior, May break application functionality. Security implications if not carefully implemented Use for learning, debugging and fun, not in production systems Limitations and Considerations Not all functions can be easily intercepted Works best with C and dynamically linked libraries Performance overhead Requires deep understanding of system internals The Hacker’s Wisdom LD_PRELOAD isn’t just a technique; it’s a mindset. It’s about understanding systems so deeply that you can reshape them from the inside.\nPro Tip: With great power comes great responsibility. Start small, experiment safely, and always have a backup!\n",
+  "wordCount" : "649",
+  "inLanguage": "en",
+  "datePublished": "2024-12-12T00:00:00Z",
+  "dateModified": "2024-12-12T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Arunai"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://arunaideepan.github.io/portfolio/blog/blog-1/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "arunaiDeepan",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://arunaideepan.github.io/portfolio/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header sticky-header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://arunaideepan.github.io/portfolio/" accesskey="h" title="arunaiDeepan (Alt + H)">arunaiDeepan</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://arunaideepan.github.io/portfolio/" title="Home">
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://arunaideepan.github.io/portfolio/blog" title="Blog">
+                    <span>Blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://arunaideepan.github.io/portfolio/experience" title="Experience">
+                    <span>Experience</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://arunaideepan.github.io/portfolio/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://arunaideepan.github.io/portfolio/tags" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://arunaideepan.github.io/portfolio/">Home</a>&nbsp;»&nbsp;<a href="https://arunaideepan.github.io/portfolio/blog/">Blogs</a></div>
+    <h1 class="post-title">
+      LD_PRELOAD - The Linux Hack That Feels Like Black Magic
+    </h1>
+    <div class="post-meta">
+
+Arunai
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#ld_preload-unleashing-your-inner-linux-wizard" aria-label="LD_PRELOAD: Unleashing Your Inner Linux Wizard🐧">LD_PRELOAD: Unleashing Your Inner Linux Wizard🐧</a><ul>
+                        
+                <li>
+                    <a href="#what-the-heck-is-ld_preload" aria-label="What the Heck is LD_PRELOAD?">What the Heck is LD_PRELOAD?</a></li>
+                <li>
+                    <a href="#how-does-this-magic-work" aria-label="How Does This Magic Work?">How Does This Magic Work?</a></li></ul>
+                </li>
+                <li>
+                    <a href="#technical-deep-dive-dynamic-linking-explained" aria-label="Technical Deep Dive: Dynamic Linking Explained">Technical Deep Dive: Dynamic Linking Explained</a></li>
+                <li>
+                    <a href="#simple-example" aria-label="Simple example">Simple example</a><ul>
+                        
+                <li>
+                    <a href="#the-code-breakdown" aria-label="The Code Breakdown">The Code Breakdown</a></li>
+                <li>
+                    <a href="#lets-break-down-the-program" aria-label="Let&amp;rsquo;s Break Down the program">Let&rsquo;s Break Down the program</a></li>
+                <li>
+                    <a href="#practical-spell-casting-" aria-label="Practical Spell Casting 🧙‍♂️">Practical Spell Casting 🧙‍♂️</a></li></ul>
+                </li>
+                <li>
+                    <a href="#under-the-hood-whats-really-happening" aria-label="Under the Hood: What&amp;rsquo;s Really Happening?">Under the Hood: What&rsquo;s Really Happening?</a></li>
+                <li>
+                    <a href="#practical-use-cases" aria-label="Practical Use Cases">Practical Use Cases</a><ul>
+                        
+                <li>
+                    <a href="#safety-and-caution" aria-label="Safety and Caution">Safety and Caution</a></li></ul>
+                </li>
+                <li>
+                    <a href="#limitations-and-considerations" aria-label="Limitations and Considerations">Limitations and Considerations</a></li>
+                <li>
+                    <a href="#the-hackers-wisdom" aria-label="The Hacker&amp;rsquo;s Wisdom">The Hacker&rsquo;s Wisdom</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="ld_preload-unleashing-your-inner-linux-wizard">LD_PRELOAD: Unleashing Your Inner Linux Wizard🐧<a hidden class="anchor" aria-hidden="true" href="#ld_preload-unleashing-your-inner-linux-wizard">#</a></h2>
+<p>Imagine having a superpower that lets you secretly modify how any program runs, without touching its source code. Welcome to the wild world of <code>LD_PRELOAD</code>, the coolest trick in the Linux hacker&rsquo;s toolkit!</p>
+<h3 id="what-the-heck-is-ld_preload">What the Heck is LD_PRELOAD?<a hidden class="anchor" aria-hidden="true" href="#what-the-heck-is-ld_preload">#</a></h3>
+<p>Think of <code>LD_PRELOAD</code> as a sneaky library loader that whispers to your system, &ldquo;Hey, I want to intercept and modify library calls <em>before</em> the program even knows what&rsquo;s happening.&rdquo; It&rsquo;s like being a digital ninja, silently modifying program behavior.</p>
+<h3 id="how-does-this-magic-work">How Does This Magic Work?<a hidden class="anchor" aria-hidden="true" href="#how-does-this-magic-work">#</a></h3>
+<p>When you set <code>LD_PRELOAD</code>, you&rsquo;re telling the dynamic linker: &ldquo;Load <em>my</em> library first, before any other libraries.&rdquo; This means:</p>
+<ul>
+<li>Your custom library gets priority</li>
+<li>You can override system functions</li>
+<li>You can add superpowers to existing programs</li>
+</ul>
+<h2 id="technical-deep-dive-dynamic-linking-explained">Technical Deep Dive: Dynamic Linking Explained<a hidden class="anchor" aria-hidden="true" href="#technical-deep-dive-dynamic-linking-explained">#</a></h2>
+<p>Before diving into the code, let&rsquo;s understand how dynamic linking works:</p>
+<ol>
+<li><strong>Dynamic Linker (<code>ld.so</code>)</strong>: Responsible for loading shared libraries at runtime</li>
+<li><strong>Symbol Resolution</strong>: Finds and links function calls to their correct implementations</li>
+<li><strong>Library Search Path</strong>:
+<ul>
+<li><code>/etc/ld.so.conf</code></li>
+<li><code>LD_LIBRARY_PATH</code> environment variable</li>
+<li>Default system paths</li>
+</ul>
+</li>
+</ol>
+<h2 id="simple-example">Simple example<a hidden class="anchor" aria-hidden="true" href="#simple-example">#</a></h2>
+<p>Let&rsquo;s dive deep into a practical example of <code>LD_PRELOAD</code> that demonstrates its true power. We&rsquo;ll create a program that secretly injects a joke into every <code>printf</code> call without modifying the original source code!</p>
+<h3 id="the-code-breakdown">The Code Breakdown<a hidden class="anchor" aria-hidden="true" href="#the-code-breakdown">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// interceptor.c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdarg.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;dlfcn.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// define a function pointer type for printf
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">typedef</span> <span style="color:#a6e22e">int</span> (<span style="color:#f92672">*</span>printf_func)(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>format, ...);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">printf</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>format, ...) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// dynamic loading of the real printf
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">static</span> printf_func real_printf <span style="color:#f92672">=</span> NULL;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>real_printf) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>handle <span style="color:#f92672">=</span> <span style="color:#a6e22e">dlopen</span>(<span style="color:#e6db74">&#34;libc.so.6&#34;</span>, RTLD_LAZY);
+</span></span><span style="display:flex;"><span>        real_printf <span style="color:#f92672">=</span> <span style="color:#a6e22e">dlsym</span>(handle, <span style="color:#e6db74">&#34;printf&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// prepare variadic arguments
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    va_list args;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">va_start</span>(args, format);
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// call the original printf
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> result <span style="color:#f92672">=</span> <span style="color:#a6e22e">real_printf</span>(format, args);
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// inject our programmer joke
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">real_printf</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Which body part does a programmer know best?</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">A: ARM</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">va_end</span>(args);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> result;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="lets-break-down-the-program">Let&rsquo;s Break Down the program<a hidden class="anchor" aria-hidden="true" href="#lets-break-down-the-program">#</a></h3>
+<ol>
+<li>
+<p><strong>Dynamic Function Interception</strong></p>
+<ul>
+<li>We create a custom <code>printf</code> function that looks exactly like the system&rsquo;s <code>printf</code></li>
+<li><code>dlopen()</code> and <code>dlsym()</code> are used to find the original <code>printf</code> function</li>
+<li>This allows us to call the original function while adding our own twist</li>
+</ul>
+</li>
+<li>
+<p><strong>Variadic Argument Handling</strong></p>
+<ul>
+<li><code>va_list</code>, <code>va_start()</code>, and <code>va_end()</code> let us handle functions with variable arguments</li>
+<li>This is crucial for intercepting <code>printf</code>, which can take any number of arguments</li>
+</ul>
+</li>
+<li>
+<p><strong>Compilation Incantation</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc -shared -fPIC interceptor.c -o funprintf.so -ldl
+</span></span></code></pre></div><ul>
+<li><code>-shared</code>: Create a shared library</li>
+<li><code>-fPIC</code>: Position Independent Code (required for shared libraries)</li>
+<li><code>-ldl</code>: Link against the dynamic loading library</li>
+</ul>
+</li>
+</ol>
+<h3 id="practical-spell-casting-">Practical Spell Casting 🧙‍♂️<a hidden class="anchor" aria-hidden="true" href="#practical-spell-casting-">#</a></h3>
+<p>To use our magic:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// test-printf.c
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc -shared -fPIC interceptor.c -o funprintf.so -ldl
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># complie test program</span>
+</span></span><span style="display:flex;"><span>gcc test-printf.c -o test
+</span></span><span style="display:flex;"><span>export LD_PRELOAD<span style="color:#f92672">=</span>./funprintf.so
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># run with our printf interceptor</span>
+</span></span><span style="display:flex;"><span>./test 
+</span></span><span style="display:flex;"><span>   hello
+</span></span><span style="display:flex;"><span>   Which body part does a programmer know best?
+</span></span><span style="display:flex;"><span>   A: ARM
+</span></span></code></pre></div><h2 id="under-the-hood-whats-really-happening">Under the Hood: What&rsquo;s Really Happening?<a hidden class="anchor" aria-hidden="true" href="#under-the-hood-whats-really-happening">#</a></h2>
+<ul>
+<li>The dynamic linker loads our library <em>first</em></li>
+<li>Our <code>printf</code> function gets called instead of the system&rsquo;s</li>
+<li>We execute the original <code>printf</code></li>
+<li>Then we sneak in our joke</li>
+</ul>
+<h2 id="practical-use-cases">Practical Use Cases<a hidden class="anchor" aria-hidden="true" href="#practical-use-cases">#</a></h2>
+<ol>
+<li>
+<p><strong>Debugging</strong>:</p>
+<ul>
+<li>Inject logging without source code modification</li>
+<li>Override error handling</li>
+<li>Create custom error reporting mechanisms</li>
+</ul>
+</li>
+<li>
+<p><strong>Security and Monitoring</strong>:</p>
+<ul>
+<li>Track function calls</li>
+<li>Intercept system calls to log activities</li>
+<li>Create custom access controls</li>
+<li>Implement lightweight sandboxing</li>
+</ul>
+</li>
+<li>
+<p><strong>Humor Injection</strong>: As demonstrated (most important, obviously!)</p>
+</li>
+<li>
+<p><strong>Performance Profiling</strong>:</p>
+<ul>
+<li>Measure function execution times</li>
+<li>Track resource usage</li>
+<li>Create custom profiling tools</li>
+</ul>
+</li>
+<li>
+<p><strong>Legacy System Modifications</strong>: Add features without recompiling</p>
+</li>
+</ol>
+<h3 id="safety-and-caution">Safety and Caution<a hidden class="anchor" aria-hidden="true" href="#safety-and-caution">#</a></h3>
+<ul>
+<li>Intercepting system calls can lead to unexpected behavior, May break application functionality. Security implications if not carefully implemented</li>
+<li>Use for learning, debugging and fun, not in production systems</li>
+</ul>
+<h2 id="limitations-and-considerations">Limitations and Considerations<a hidden class="anchor" aria-hidden="true" href="#limitations-and-considerations">#</a></h2>
+<ul>
+<li>Not all functions can be easily intercepted</li>
+<li>Works best with C and dynamically linked libraries</li>
+<li>Performance overhead</li>
+<li>Requires deep understanding of system internals</li>
+</ul>
+<h2 id="the-hackers-wisdom">The Hacker&rsquo;s Wisdom<a hidden class="anchor" aria-hidden="true" href="#the-hackers-wisdom">#</a></h2>
+<p><code>LD_PRELOAD</code> isn&rsquo;t just a technique; it&rsquo;s a mindset. It&rsquo;s about understanding systems so deeply that you can reshape them from the inside.</p>
+<p><strong>Pro Tip</strong>: With great power comes great responsibility. Start small, experiment safely, and always have a backup!</p>
+<hr>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://arunaideepan.github.io/portfolio/tags/linux/">linux</a></li>
+      <li><a href="https://arunaideepan.github.io/portfolio/tags/hacking/">hacking</a></li>
+      <li><a href="https://arunaideepan.github.io/portfolio/tags/programming/">programming</a></li>
+      <li><a href="https://arunaideepan.github.io/portfolio/tags/system-programming/">system programming</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2024 <a href="https://arunaideepan.github.io/portfolio/">arunaiDeepan</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
