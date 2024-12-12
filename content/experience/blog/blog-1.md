@@ -1,8 +1,8 @@
 ---
-title = "LD_PRELOAD - The Linux Hack That Feels Like Black Magic"
-date = "2024-12-12"
-author = "Arunai"
-tags = ["linux", "hacking", "programming", "system programming"]
+title: "LD_PRELOAD - The Linux Hack That Feels Like Black Magic"
+date: "2024-12-12"
+author: "Arunai"
+tags: ["linux", "hacking", "programming", "system programming"]
 ---
 
 # LD_PRELOAD: Unleashing Your Inner Linux Wizard🐧
