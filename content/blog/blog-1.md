@@ -4,12 +4,11 @@ date: "2024-12-12"
 author: "Arunai"
 tags: ["linux", "hacking", "programming", "system programming"]
 ---
-
-# LD_PRELOAD: Unleashing Your Inner Linux Wizard🐧
+## LD_PRELOAD: Unleashing Your Inner Linux Wizard🐧
 
 Imagine having a superpower that lets you secretly modify how any program runs, without touching its source code. Welcome to the wild world of `LD_PRELOAD`, the coolest trick in the Linux hacker's toolkit!
 
-## What the Heck is LD_PRELOAD?
+### What the Heck is LD_PRELOAD?
 
 Think of `LD_PRELOAD` as a sneaky library loader that whispers to your system, "Hey, I want to intercept and modify library calls *before* the program even knows what's happening." It's like being a digital ninja, silently modifying program behavior.
 

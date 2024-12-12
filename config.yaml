@@ -48,7 +48,7 @@ params:
   profileMode:
     enabled: true
     title: "Arunai Deepan"
-    subtitle: I'm a software engineer, problem solver, and general enthusiast for all things that beep and blink. Diving deep into the realms of cloud infrastructure at [**Lightcast**](https://lightcast.io/).
+    subtitle: Hi there! 👋, I'm a software engineer. Diving deep into the realms of cloud infrastructure at [**Lightcast**](https://lightcast.io/).
     imageUrl: "home/me.jpg"
     imageWidth: 220
     imageHeight: 220
