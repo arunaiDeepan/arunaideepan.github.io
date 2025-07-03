@@ -2,152 +2,152 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on arunaiDeepan</title>
-    <link>https://arunaideepan.github.io/portfolio/tags/</link>
+    <link>https://arunaideepan.github.io/tags/</link>
     <description>Recent content in Tags on arunaiDeepan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 12 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://arunaideepan.github.io/portfolio/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 12 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://arunaideepan.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>hacking</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/hacking/</link>
+      <link>https://arunaideepan.github.io/tags/hacking/</link>
       <pubDate>Thu, 12 Dec 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/hacking/</guid>
+      <guid>https://arunaideepan.github.io/tags/hacking/</guid>
       <description></description>
     </item>
     
     <item>
       <title>linux</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/linux/</link>
+      <link>https://arunaideepan.github.io/tags/linux/</link>
       <pubDate>Thu, 12 Dec 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/linux/</guid>
+      <guid>https://arunaideepan.github.io/tags/linux/</guid>
       <description></description>
     </item>
     
     <item>
       <title>programming</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/programming/</link>
+      <link>https://arunaideepan.github.io/tags/programming/</link>
       <pubDate>Thu, 12 Dec 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/programming/</guid>
+      <guid>https://arunaideepan.github.io/tags/programming/</guid>
       <description></description>
     </item>
     
     <item>
       <title>system programming</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/system-programming/</link>
+      <link>https://arunaideepan.github.io/tags/system-programming/</link>
       <pubDate>Thu, 12 Dec 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/system-programming/</guid>
+      <guid>https://arunaideepan.github.io/tags/system-programming/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Automation</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/automation/</link>
+      <link>https://arunaideepan.github.io/tags/automation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/automation/</guid>
+      <guid>https://arunaideepan.github.io/tags/automation/</guid>
       <description></description>
     </item>
     
     <item>
       <title>AWS</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/aws/</link>
+      <link>https://arunaideepan.github.io/tags/aws/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/aws/</guid>
+      <guid>https://arunaideepan.github.io/tags/aws/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Bash</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/bash/</link>
+      <link>https://arunaideepan.github.io/tags/bash/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/bash/</guid>
+      <guid>https://arunaideepan.github.io/tags/bash/</guid>
       <description></description>
     </item>
     
     <item>
       <title>C/C&#43;&#43;</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/c/c&#43;&#43;/</link>
+      <link>https://arunaideepan.github.io/tags/c/c&#43;&#43;/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/c/c&#43;&#43;/</guid>
+      <guid>https://arunaideepan.github.io/tags/c/c&#43;&#43;/</guid>
       <description></description>
     </item>
     
     <item>
       <title>CI/CD</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/ci/cd/</link>
+      <link>https://arunaideepan.github.io/tags/ci/cd/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/ci/cd/</guid>
+      <guid>https://arunaideepan.github.io/tags/ci/cd/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Databases</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/databases/</link>
+      <link>https://arunaideepan.github.io/tags/databases/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/databases/</guid>
+      <guid>https://arunaideepan.github.io/tags/databases/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Docker</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/docker/</link>
+      <link>https://arunaideepan.github.io/tags/docker/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/docker/</guid>
+      <guid>https://arunaideepan.github.io/tags/docker/</guid>
       <description></description>
     </item>
     
     <item>
       <title>GitLab</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/gitlab/</link>
+      <link>https://arunaideepan.github.io/tags/gitlab/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/gitlab/</guid>
+      <guid>https://arunaideepan.github.io/tags/gitlab/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Kubernetes</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/kubernetes/</link>
+      <link>https://arunaideepan.github.io/tags/kubernetes/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/kubernetes/</guid>
+      <guid>https://arunaideepan.github.io/tags/kubernetes/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Openstack</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/openstack/</link>
+      <link>https://arunaideepan.github.io/tags/openstack/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/openstack/</guid>
+      <guid>https://arunaideepan.github.io/tags/openstack/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Python</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/python/</link>
+      <link>https://arunaideepan.github.io/tags/python/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/python/</guid>
+      <guid>https://arunaideepan.github.io/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Terraform</title>
-      <link>https://arunaideepan.github.io/portfolio/tags/terraform/</link>
+      <link>https://arunaideepan.github.io/tags/terraform/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/tags/terraform/</guid>
+      <guid>https://arunaideepan.github.io/tags/terraform/</guid>
       <description></description>
     </item>
     

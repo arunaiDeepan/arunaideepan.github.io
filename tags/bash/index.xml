@@ -2,16 +2,16 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Bash on arunaiDeepan</title>
-    <link>https://arunaideepan.github.io/portfolio/tags/bash/</link>
+    <link>https://arunaideepan.github.io/tags/bash/</link>
     <description>Recent content in Bash on arunaiDeepan</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://arunaideepan.github.io/portfolio/tags/bash/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://arunaideepan.github.io/tags/bash/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Software Engineer Intern</title>
-      <link>https://arunaideepan.github.io/portfolio/experience/checktronix/</link>
+      <link>https://arunaideepan.github.io/experience/checktronix/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://arunaideepan.github.io/portfolio/experience/checktronix/</guid>
+      <guid>https://arunaideepan.github.io/experience/checktronix/</guid>
       <description>Lightcast</description>
     </item>
     
