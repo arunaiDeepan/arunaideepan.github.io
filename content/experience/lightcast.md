@@ -27,4 +27,5 @@ weight: 301
 - Created lightweight CLI tools in Go for both local development and GitLab pipelines, enhancing developer productivity and standardizing routine tasks.
 
 ### Skills
+
 `Python` `C/C++` `Go` `Linux` `Kubernetes` `Docker` `OpenShift` `Helm` `Automation` `AWS` `CI/CD` `GitLab` `Terraform`

@@ -16,4 +16,5 @@ Configured and deployed OpenStack services on the controller and compute nodes.
 - Collaborated with colleagues to troubleshoot issues and optimize the performance of the OpenStack setup.
 
 ### Skills
+
 `Python` `Bash` `Linux` `Databases` `Openstack`
