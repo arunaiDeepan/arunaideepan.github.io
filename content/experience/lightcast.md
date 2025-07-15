@@ -25,3 +25,6 @@ weight: 301
 - Developed a Python-based AWS Lambda function and deployed it using Terraform and GitLab pipelines, contributing to deployment automation and operational efficiency.
 - Coordinated directly with clients to streamline and support smoother deployments on their infrastructure.
 - Created lightweight CLI tools in Go for both local development and GitLab pipelines, enhancing developer productivity and standardizing routine tasks.
+
+### Skills
+`Python` `C/C++` `Go` `Linux` `Kubernetes` `Docker` `OpenShift` `Helm` `Automation` `AWS` `CI/CD` `GitLab` `Terraform`

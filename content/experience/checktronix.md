@@ -14,3 +14,6 @@ weight: 302
 Configured and deployed OpenStack services on the controller and compute nodes.
 - Implemented network configurations and security settings to ensure the stability and security of the OpenStack environment.
 - Collaborated with colleagues to troubleshoot issues and optimize the performance of the OpenStack setup.
+
+### Skills
+`Python` `Bash` `Linux` `Databases` `Openstack`
