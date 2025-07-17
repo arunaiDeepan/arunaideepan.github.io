@@ -31,8 +31,8 @@
       <pubDate>Thu, 17 Jul 2025 00:00:00 +0000</pubDate>
       
       <guid>https://arunaideepan.github.io/blog/blog-2/</guid>
-      <description>What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O) Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here&amp;rsquo;s what I found out - and a really cool tool I wish worked on OpenShift.
-So&amp;hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (v1.</description>
+      <description>Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here&amp;rsquo;s what I found out - and a really cool tool I wish worked on OpenShift.
+So&amp;hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (v1.0.0, latest, whatever), push it, redeploy, and your app is still doing the old stuff.</description>
     </item>
     
     <item>
