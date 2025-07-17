@@ -5,8 +5,6 @@ author: "Arunai"
 tags: ["Kubernetes", "OpenShift", "Spegel", "SELinux"]
 ---
 
-# What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O)
-
 *Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here's what I found out - and a really cool tool I wish worked on OpenShift.*
 
 ---
