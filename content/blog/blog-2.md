@@ -1,3 +1,10 @@
+---
+title: "What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel"
+date: "2025-07-17"
+author: "Arunai"
+tags: ["Kubernetes", "OpenShift", "Spegel", "SELinux"]
+---
+
 # What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O)
 
 *Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here's what I found out - and a really cool tool I wish worked on OpenShift.*
@@ -96,8 +103,8 @@ spec:
 Or better, just use unique tags for every build:
 
 ```bash
-docker build -t myapp:${GIT_COMMIT} .
-docker push myapp:${GIT_COMMIT}
+podman build -t myapp:${GIT_COMMIT} .
+podman push myapp:${GIT_COMMIT}
 ```
 
 ---
