@@ -6,7 +6,43 @@
     <description>Recent content in Tags on arunaiDeepan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 12 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://arunaideepan.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 17 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://arunaideepan.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kubernetes</title>
+      <link>https://arunaideepan.github.io/tags/kubernetes/</link>
+      <pubDate>Thu, 17 Jul 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://arunaideepan.github.io/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>OpenShift</title>
+      <link>https://arunaideepan.github.io/tags/openshift/</link>
+      <pubDate>Thu, 17 Jul 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://arunaideepan.github.io/tags/openshift/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SELinux</title>
+      <link>https://arunaideepan.github.io/tags/selinux/</link>
+      <pubDate>Thu, 17 Jul 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://arunaideepan.github.io/tags/selinux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spegel</title>
+      <link>https://arunaideepan.github.io/tags/spegel/</link>
+      <pubDate>Thu, 17 Jul 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://arunaideepan.github.io/tags/spegel/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>hacking</title>
       <link>https://arunaideepan.github.io/tags/hacking/</link>
@@ -112,24 +148,6 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://arunaideepan.github.io/tags/gitlab/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Kubernetes</title>
-      <link>https://arunaideepan.github.io/tags/kubernetes/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://arunaideepan.github.io/tags/kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>OpenShift</title>
-      <link>https://arunaideepan.github.io/tags/openshift/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://arunaideepan.github.io/tags/openshift/</guid>
       <description></description>
     </item>
     

@@ -5,7 +5,8 @@
     <link>https://arunaideepan.github.io/tags/openshift/</link>
     <description>Recent content in OpenShift on arunaiDeepan</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://arunaideepan.github.io/tags/openshift/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Thu, 17 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://arunaideepan.github.io/tags/openshift/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Software Engineer</title>
       <link>https://arunaideepan.github.io/experience/lightcast/</link>
@@ -13,6 +14,16 @@
       
       <guid>https://arunaideepan.github.io/experience/lightcast/</guid>
       <description>Lightcast | Chennai - Tamil Nadu, India</description>
+    </item>
+    
+    <item>
+      <title>What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel</title>
+      <link>https://arunaideepan.github.io/blog/blog-2/</link>
+      <pubDate>Thu, 17 Jul 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://arunaideepan.github.io/blog/blog-2/</guid>
+      <description>What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O) Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here&amp;rsquo;s what I found out - and a really cool tool I wish worked on OpenShift.
+So&amp;hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (v1.</description>
     </item>
     
   </channel>

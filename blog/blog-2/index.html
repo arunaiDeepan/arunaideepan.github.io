@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>arunaiDeepan</title>
-<meta name="keywords" content="">
+<title>What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel | arunaiDeepan</title>
+<meta name="keywords" content="Kubernetes, OpenShift, Spegel, SELinux">
 <meta name="description" content="What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O) Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here&rsquo;s what I found out - and a really cool tool I wish worked on OpenShift.
 So&hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (v1.">
-<meta name="author" content="">
+<meta name="author" content="Arunai">
 <link rel="canonical" href="https://arunaideepan.github.io/blog/blog-2/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.min.a72801f0f40a8d7f71aa1cafd1c2f2a993a1f26ca1cfd38fdba65d5b9b0f08a0.css" integrity="sha256-pygB8PQKjX9xqhyv0cLyqZOh8myhz9OP26ZdW5sPCKA=" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.min.b95bacdc39e37a332a9f883b1e78be4abc1fdca2bc1f2641f55e3cd3dabd4d61.js" integrity="sha256-uVus3DnjejMqn4g7Hni&#43;Srwf3KK8HyZB9V4809q9TWE="
@@ -57,16 +57,16 @@ So&hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re w
         }
 
     </style>
-</noscript><meta property="og:title" content="" />
+</noscript><meta property="og:title" content="What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel" />
 <meta property="og:description" content="What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O) Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here&rsquo;s what I found out - and a really cool tool I wish worked on OpenShift.
 So&hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (v1." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://arunaideepan.github.io/blog/blog-2/" /><meta property="article:section" content="blog" />
-
-
+<meta property="article:published_time" content="2025-07-17T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2025-07-17T00:00:00&#43;00:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
+<meta name="twitter:title" content="What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel"/>
 <meta name="twitter:description" content="What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O) Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here&rsquo;s what I found out - and a really cool tool I wish worked on OpenShift.
 So&hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (v1."/>
 
@@ -85,7 +85,7 @@ So&hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re w
     {
       "@type": "ListItem",
       "position":  2 ,
-      "name": "",
+      "name": "What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel",
       "item": "https://arunaideepan.github.io/blog/blog-2/"
     }
   ]
@@ -95,17 +95,21 @@ So&hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re w
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "",
-  "name": "",
+  "headline": "What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel",
+  "name": "What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel",
   "description": "What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O) Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here\u0026rsquo;s what I found out - and a really cool tool I wish worked on OpenShift.\nSo\u0026hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (v1.",
   "keywords": [
-    
+    "Kubernetes", "OpenShift", "Spegel", "SELinux"
   ],
-  "articleBody": "What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O) Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here’s what I found out - and a really cool tool I wish worked on OpenShift.\nSo… Why Isn’t My New Code Showing Up? Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (v1.0.0, latest, whatever), push it, redeploy, and your app is still doing the old stuff.\nIt’s one of those classic “what the hell is going on?” moments.\nTurns out - it’s all about image caching, and OpenShift is playing by its own rules (for good reasons).\nThe Real Reason: OpenShift Caches Images (and It’s Not a Bug) Here’s the deal: OpenShift (like Kubernetes in general) doesn’t automatically pull updated images with the same tag unless you tell it to.\nTL;DR: If the image tag is latest: OpenShift sets imagePullPolicy: Always Any other tag?: It defaults to IfNotPresent, meaning “don’t pull again if I already have this tag locally.” So when you push a new image with v1.0.0, OpenShift is like: “Cool, I already have v1.0.0 cached. I’m good.” And your changes? Nowhere in sight.\nOpenShift Docs: Managing container images\nWhy This Actually Makes Sense (But Still Hurts) This behavior isn’t dumb - it’s deliberate:\nFaster pod startup Reduced registry bandwidth Lower pull costs More reliable startup when the registry is flaky It’s just not what you expect when you’re in the middle of debugging and nothing looks like it’s changing.\nThen I Found Spegel… on YouTube So there I was, doing the usual late-night YouTube spiral, when I randomly stumbled across Spegel in this video titled Microsoft Tried To Steal A Project And Almost Got Away With It… - and yeah, it got interesting real fast. A cool open-source project github.com/spegel-org/spegel\nIt does something clever: turns your cluster into a peer-to-peer image-sharing network. Every node becomes a tiny registry, so when one node has the image, others can grab it from there - no need to go to an external registry every time.\nHere’s what caught my attention:\nSuper fast deployments (especially for larger images) Cluster-wide image caching Reduces external registry hits Works transparently with existing workflows Why Spegel Isn’t Available in OpenShift Now here’s the twist.\nI got super excited, then realized… Spegel doesn’t work on OpenShift. And here’s why:\nIt’s all about container runtimes: containerd vs CRI-O Spegel depends on containerd to manage the local image cache and registry mirroring. OpenShift uses CRI-O as its default container runtime - chosen for its Kubernetes focus, tight SELinux integration, and security posture. While containerd is a CNCF project with rich features for pluggable registries, CRI-O is much more minimal and doesn’t expose the same image-layer APIs that Spegel hooks into.\nWhy OpenShift uses CRI-O\nSo, unless OpenShift shifts to containerd (which is unlikely), tools like Spegel just aren’t compatible out-of-the-box.\nOpenShift’s More Traditional Approach OpenShift’s image caching is still pretty robust, just… different. It leans on:\nImage streams: OpenShift’s own abstraction for managing image tags and versions OpenShift Docs: Image Streams Immutable tags: You should really stop reusing the same tag for different images 😅 Explicit pull policies: You can override the default caching by doing this: spec: containers: - name: myapp image: myregistry.com/myapp:v1.0.0 imagePullPolicy: Always Or better, just use unique tags for every build:\ndocker build -t myapp:${GIT_COMMIT} . docker push myapp:${GIT_COMMIT} Spegel’s Peer-to-Peer Vibes If you’re running vanilla Kubernetes or something like K3s with containerd, Spegel is amazing. It gives you:\nInstant image access across the cluster Automatic optimization Registry-free local pulls Zero-cost bandwidth reuse No more waiting for a 1GB image to pull for the 20th time from Docker Hub.\nSpegel GitHub Project\nFinal Thoughts: Two Philosophies, Two Worlds This whole deep dive showed me how OpenShift and Spegel represent two very different takes on the same problem:\nOpenShift: The “Stable, Predictable” Way Relies on tags being immutable Optimized for enterprise-grade stability Makes developers responsible for versioning and caching logic Spegel: The “Fast and Distributed” Way Cluster becomes its own mini-registry Smart and automatic caching via P2P Geared for speed, resilience, and cost reduction TL;DR: What You Can Do on OpenShift Don’t reuse tags - Use something like a Git SHA or timestamp Set imagePullPolicy: Always when you really need to force an update Leverage ImageStreams if you’re doing tag promotion workflows Understand your runtime - tools like Spegel won’t work with CRI-O Would I Use Spegel? Absolutely, if I were running containerd-based clusters. It’s clever, fast, and fits well in test/staging or self-hosted production.\nBut for OpenShift? It’s not the right tool. And that’s fine. OpenShift gives me a more secure, enterprise-grade runtime and tools like ImageStreams that, once you get used to them, work pretty well.\nSometimes the trade-offs are worth it.\n",
+  "articleBody": "What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O) Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here’s what I found out - and a really cool tool I wish worked on OpenShift.\nSo… Why Isn’t My New Code Showing Up? Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (v1.0.0, latest, whatever), push it, redeploy, and your app is still doing the old stuff.\nIt’s one of those classic “what the hell is going on?” moments.\nTurns out - it’s all about image caching, and OpenShift is playing by its own rules (for good reasons).\nThe Real Reason: OpenShift Caches Images (and It’s Not a Bug) Here’s the deal: OpenShift (like Kubernetes in general) doesn’t automatically pull updated images with the same tag unless you tell it to.\nTL;DR: If the image tag is latest: OpenShift sets imagePullPolicy: Always Any other tag?: It defaults to IfNotPresent, meaning “don’t pull again if I already have this tag locally.” So when you push a new image with v1.0.0, OpenShift is like: “Cool, I already have v1.0.0 cached. I’m good.” And your changes? Nowhere in sight.\nOpenShift Docs: Managing container images\nWhy This Actually Makes Sense (But Still Hurts) This behavior isn’t dumb - it’s deliberate:\nFaster pod startup Reduced registry bandwidth Lower pull costs More reliable startup when the registry is flaky It’s just not what you expect when you’re in the middle of debugging and nothing looks like it’s changing.\nThen I Found Spegel… on YouTube So there I was, doing the usual late-night YouTube spiral, when I randomly stumbled across Spegel in this video titled Microsoft Tried To Steal A Project And Almost Got Away With It… - and yeah, it got interesting real fast. A cool open-source project github.com/spegel-org/spegel\nIt does something clever: turns your cluster into a peer-to-peer image-sharing network. Every node becomes a tiny registry, so when one node has the image, others can grab it from there - no need to go to an external registry every time.\nHere’s what caught my attention:\nSuper fast deployments (especially for larger images) Cluster-wide image caching Reduces external registry hits Works transparently with existing workflows Why Spegel Isn’t Available in OpenShift Now here’s the twist.\nI got super excited, then realized… Spegel doesn’t work on OpenShift. And here’s why:\nIt’s all about container runtimes: containerd vs CRI-O Spegel depends on containerd to manage the local image cache and registry mirroring. OpenShift uses CRI-O as its default container runtime - chosen for its Kubernetes focus, tight SELinux integration, and security posture. While containerd is a CNCF project with rich features for pluggable registries, CRI-O is much more minimal and doesn’t expose the same image-layer APIs that Spegel hooks into.\nWhy OpenShift uses CRI-O\nSo, unless OpenShift shifts to containerd (which is unlikely), tools like Spegel just aren’t compatible out-of-the-box.\nOpenShift’s More Traditional Approach OpenShift’s image caching is still pretty robust, just… different. It leans on:\nImage streams: OpenShift’s own abstraction for managing image tags and versions OpenShift Docs: Image Streams Immutable tags: You should really stop reusing the same tag for different images 😅 Explicit pull policies: You can override the default caching by doing this: spec: containers: - name: myapp image: myregistry.com/myapp:v1.0.0 imagePullPolicy: Always Or better, just use unique tags for every build:\npodman build -t myapp:${GIT_COMMIT} . podman push myapp:${GIT_COMMIT} Spegel’s Peer-to-Peer Vibes If you’re running vanilla Kubernetes or something like K3s with containerd, Spegel is amazing. It gives you:\nInstant image access across the cluster Automatic optimization Registry-free local pulls Zero-cost bandwidth reuse No more waiting for a 1GB image to pull for the 20th time from Docker Hub.\nSpegel GitHub Project\nFinal Thoughts: Two Philosophies, Two Worlds This whole deep dive showed me how OpenShift and Spegel represent two very different takes on the same problem:\nOpenShift: The “Stable, Predictable” Way Relies on tags being immutable Optimized for enterprise-grade stability Makes developers responsible for versioning and caching logic Spegel: The “Fast and Distributed” Way Cluster becomes its own mini-registry Smart and automatic caching via P2P Geared for speed, resilience, and cost reduction TL;DR: What You Can Do on OpenShift Don’t reuse tags - Use something like a Git SHA or timestamp Set imagePullPolicy: Always when you really need to force an update Leverage ImageStreams if you’re doing tag promotion workflows Understand your runtime - tools like Spegel won’t work with CRI-O Would I Use Spegel? Absolutely, if I were running containerd-based clusters. It’s clever, fast, and fits well in test/staging or self-hosted production.\nBut for OpenShift? It’s not the right tool. And that’s fine. OpenShift gives me a more secure, enterprise-grade runtime and tools like ImageStreams that, once you get used to them, work pretty well.\nSometimes the trade-offs are worth it.\n",
   "wordCount" : "816",
   "inLanguage": "en",
-  "datePublished": "0001-01-01T00:00:00Z",
-  "dateModified": "0001-01-01T00:00:00Z",
+  "datePublished": "2025-07-17T00:00:00Z",
+  "dateModified": "2025-07-17T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Arunai"
+  },
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "https://arunaideepan.github.io/blog/blog-2/"
@@ -196,11 +200,11 @@ So&hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re w
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://arunaideepan.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://arunaideepan.github.io/blog/">Blogs</a></div>
     <h1 class="post-title">
-      
+      What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel
     </h1>
     <div class="post-meta">
 
-
+Arunai
 
 </div>
   </header> <div class="toc">
@@ -320,8 +324,8 @@ So&hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re w
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">myregistry.com/myapp:v1.0.0</span>
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">imagePullPolicy</span>: <span style="color:#ae81ff">Always</span>
 </span></span></code></pre></div><p>Or better, just use unique tags for every build:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker build -t myapp:<span style="color:#e6db74">${</span>GIT_COMMIT<span style="color:#e6db74">}</span> .
-</span></span><span style="display:flex;"><span>docker push myapp:<span style="color:#e6db74">${</span>GIT_COMMIT<span style="color:#e6db74">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>podman build -t myapp:<span style="color:#e6db74">${</span>GIT_COMMIT<span style="color:#e6db74">}</span> .
+</span></span><span style="display:flex;"><span>podman push myapp:<span style="color:#e6db74">${</span>GIT_COMMIT<span style="color:#e6db74">}</span>
 </span></span></code></pre></div><hr>
 <h2 id="spegels-peer-to-peer-vibes">Spegel’s Peer-to-Peer Vibes<a hidden class="anchor" aria-hidden="true" href="#spegels-peer-to-peer-vibes">#</a></h2>
 <p>If you&rsquo;re running vanilla Kubernetes or something like K3s with <code>containerd</code>, Spegel is amazing. It gives you:</p>
@@ -368,6 +372,10 @@ So&hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re w
 
   <footer class="post-footer">
     <ul class="post-tags">
+      <li><a href="https://arunaideepan.github.io/tags/kubernetes/">Kubernetes</a></li>
+      <li><a href="https://arunaideepan.github.io/tags/openshift/">OpenShift</a></li>
+      <li><a href="https://arunaideepan.github.io/tags/spegel/">Spegel</a></li>
+      <li><a href="https://arunaideepan.github.io/tags/selinux/">SELinux</a></li>
     </ul>
   </footer>
 </article>
