@@ -35,6 +35,16 @@
 What the Heck is LD_PRELOAD? Think of LD_PRELOAD as a sneaky library loader that whispers to your system, &amp;ldquo;Hey, I want to intercept and modify library calls before the program even knows what&amp;rsquo;s happening.</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>https://arunaideepan.github.io/blog/blog-2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://arunaideepan.github.io/blog/blog-2/</guid>
+      <description>What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O) Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here&amp;rsquo;s what I found out - and a really cool tool I wish worked on OpenShift.
+So&amp;hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (v1.</description>
+    </item>
+    
     
   </channel>
 </rss>

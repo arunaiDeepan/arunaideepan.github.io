@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>arunaiDeepan</title>
+<meta name="keywords" content="">
+<meta name="description" content="What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O) Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here&rsquo;s what I found out - and a really cool tool I wish worked on OpenShift.
+So&hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (v1.">
+<meta name="author" content="">
+<link rel="canonical" href="https://arunaideepan.github.io/blog/blog-2/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.a72801f0f40a8d7f71aa1cafd1c2f2a993a1f26ca1cfd38fdba65d5b9b0f08a0.css" integrity="sha256-pygB8PQKjX9xqhyv0cLyqZOh8myhz9OP26ZdW5sPCKA=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.b95bacdc39e37a332a9f883b1e78be4abc1fdca2bc1f2641f55e3cd3dabd4d61.js" integrity="sha256-uVus3DnjejMqn4g7Hni&#43;Srwf3KK8HyZB9V4809q9TWE="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://arunaideepan.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://arunaideepan.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://arunaideepan.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://arunaideepan.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://arunaideepan.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="" />
+<meta property="og:description" content="What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O) Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here&rsquo;s what I found out - and a really cool tool I wish worked on OpenShift.
+So&hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (v1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://arunaideepan.github.io/blog/blog-2/" /><meta property="article:section" content="blog" />
+
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O) Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here&rsquo;s what I found out - and a really cool tool I wish worked on OpenShift.
+So&hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (v1."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Blogs",
+      "item": "https://arunaideepan.github.io/blog/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "",
+      "item": "https://arunaideepan.github.io/blog/blog-2/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "",
+  "name": "",
+  "description": "What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O) Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here\u0026rsquo;s what I found out - and a really cool tool I wish worked on OpenShift.\nSo\u0026hellip; Why Isn’t My New Code Showing Up? Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (v1.",
+  "keywords": [
+    
+  ],
+  "articleBody": "What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O) Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here’s what I found out - and a really cool tool I wish worked on OpenShift.\nSo… Why Isn’t My New Code Showing Up? Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (v1.0.0, latest, whatever), push it, redeploy, and your app is still doing the old stuff.\nIt’s one of those classic “what the hell is going on?” moments.\nTurns out - it’s all about image caching, and OpenShift is playing by its own rules (for good reasons).\nThe Real Reason: OpenShift Caches Images (and It’s Not a Bug) Here’s the deal: OpenShift (like Kubernetes in general) doesn’t automatically pull updated images with the same tag unless you tell it to.\nTL;DR: If the image tag is latest: OpenShift sets imagePullPolicy: Always Any other tag?: It defaults to IfNotPresent, meaning “don’t pull again if I already have this tag locally.” So when you push a new image with v1.0.0, OpenShift is like: “Cool, I already have v1.0.0 cached. I’m good.” And your changes? Nowhere in sight.\nOpenShift Docs: Managing container images\nWhy This Actually Makes Sense (But Still Hurts) This behavior isn’t dumb - it’s deliberate:\nFaster pod startup Reduced registry bandwidth Lower pull costs More reliable startup when the registry is flaky It’s just not what you expect when you’re in the middle of debugging and nothing looks like it’s changing.\nThen I Found Spegel… on YouTube So there I was, doing the usual late-night YouTube spiral, when I randomly stumbled across Spegel in this video titled Microsoft Tried To Steal A Project And Almost Got Away With It… - and yeah, it got interesting real fast. A cool open-source project github.com/spegel-org/spegel\nIt does something clever: turns your cluster into a peer-to-peer image-sharing network. Every node becomes a tiny registry, so when one node has the image, others can grab it from there - no need to go to an external registry every time.\nHere’s what caught my attention:\nSuper fast deployments (especially for larger images) Cluster-wide image caching Reduces external registry hits Works transparently with existing workflows Why Spegel Isn’t Available in OpenShift Now here’s the twist.\nI got super excited, then realized… Spegel doesn’t work on OpenShift. And here’s why:\nIt’s all about container runtimes: containerd vs CRI-O Spegel depends on containerd to manage the local image cache and registry mirroring. OpenShift uses CRI-O as its default container runtime - chosen for its Kubernetes focus, tight SELinux integration, and security posture. While containerd is a CNCF project with rich features for pluggable registries, CRI-O is much more minimal and doesn’t expose the same image-layer APIs that Spegel hooks into.\nWhy OpenShift uses CRI-O\nSo, unless OpenShift shifts to containerd (which is unlikely), tools like Spegel just aren’t compatible out-of-the-box.\nOpenShift’s More Traditional Approach OpenShift’s image caching is still pretty robust, just… different. It leans on:\nImage streams: OpenShift’s own abstraction for managing image tags and versions OpenShift Docs: Image Streams Immutable tags: You should really stop reusing the same tag for different images 😅 Explicit pull policies: You can override the default caching by doing this: spec: containers: - name: myapp image: myregistry.com/myapp:v1.0.0 imagePullPolicy: Always Or better, just use unique tags for every build:\ndocker build -t myapp:${GIT_COMMIT} . docker push myapp:${GIT_COMMIT} Spegel’s Peer-to-Peer Vibes If you’re running vanilla Kubernetes or something like K3s with containerd, Spegel is amazing. It gives you:\nInstant image access across the cluster Automatic optimization Registry-free local pulls Zero-cost bandwidth reuse No more waiting for a 1GB image to pull for the 20th time from Docker Hub.\nSpegel GitHub Project\nFinal Thoughts: Two Philosophies, Two Worlds This whole deep dive showed me how OpenShift and Spegel represent two very different takes on the same problem:\nOpenShift: The “Stable, Predictable” Way Relies on tags being immutable Optimized for enterprise-grade stability Makes developers responsible for versioning and caching logic Spegel: The “Fast and Distributed” Way Cluster becomes its own mini-registry Smart and automatic caching via P2P Geared for speed, resilience, and cost reduction TL;DR: What You Can Do on OpenShift Don’t reuse tags - Use something like a Git SHA or timestamp Set imagePullPolicy: Always when you really need to force an update Leverage ImageStreams if you’re doing tag promotion workflows Understand your runtime - tools like Spegel won’t work with CRI-O Would I Use Spegel? Absolutely, if I were running containerd-based clusters. It’s clever, fast, and fits well in test/staging or self-hosted production.\nBut for OpenShift? It’s not the right tool. And that’s fine. OpenShift gives me a more secure, enterprise-grade runtime and tools like ImageStreams that, once you get used to them, work pretty well.\nSometimes the trade-offs are worth it.\n",
+  "wordCount" : "816",
+  "inLanguage": "en",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://arunaideepan.github.io/blog/blog-2/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "arunaiDeepan",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://arunaideepan.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header sticky-header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://arunaideepan.github.io/" accesskey="h" title="arunaiDeepan (Alt + H)">arunaiDeepan</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://arunaideepan.github.io/" title="Home">
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://arunaideepan.github.io/blog" title="Blog">
+                    <span>Blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://arunaideepan.github.io/experience" title="Experience">
+                    <span>Experience</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://arunaideepan.github.io/search" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://arunaideepan.github.io/tags" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://arunaideepan.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://arunaideepan.github.io/blog/">Blogs</a></div>
+    <h1 class="post-title">
+      
+    </h1>
+    <div class="post-meta">
+
+
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#what-i-learned-about-image-caching-from-a-youtube-rabbit-hole-openshift-vs-spegel-and-why-spegel-isnt-for-cri-o" aria-label="What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O)">What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O)</a><ul>
+                        
+                <li>
+                    <a href="#so-why-isnt-my-new-code-showing-up" aria-label="So&amp;hellip; Why Isn’t My New Code Showing Up?">So&hellip; Why Isn’t My New Code Showing Up?</a></li>
+                <li>
+                    <a href="#the-real-reason-openshift-caches-images-and-its-not-a-bug" aria-label="The Real Reason: OpenShift Caches Images (and It’s Not a Bug)">The Real Reason: OpenShift Caches Images (and It’s Not a Bug)</a><ul>
+                        
+                <li>
+                    <a href="#tldr" aria-label="TL;DR:">TL;DR:</a></li></ul>
+                </li>
+                <li>
+                    <a href="#why-this-actually-makes-sense-but-still-hurts" aria-label="Why This Actually Makes Sense (But Still Hurts)">Why This Actually Makes Sense (But Still Hurts)</a></li>
+                <li>
+                    <a href="#then-i-found-spegel-on-youtube" aria-label="Then I Found Spegel… on YouTube">Then I Found Spegel… on YouTube</a></li>
+                <li>
+                    <a href="#why-spegel-isnt-available-in-openshift" aria-label="Why Spegel Isn&amp;rsquo;t Available in OpenShift">Why Spegel Isn&rsquo;t Available in OpenShift</a><ul>
+                        
+                <li>
+                    <a href="#its-all-about-container-runtimes-containerd-vs-cri-o" aria-label="It’s all about container runtimes: containerd vs CRI-O">It’s all about container runtimes: <code>containerd</code> vs <code>CRI-O</code></a></li></ul>
+                </li>
+                <li>
+                    <a href="#openshifts-more-traditional-approach" aria-label="OpenShift&amp;rsquo;s More Traditional Approach">OpenShift&rsquo;s More Traditional Approach</a></li>
+                <li>
+                    <a href="#spegels-peer-to-peer-vibes" aria-label="Spegel’s Peer-to-Peer Vibes">Spegel’s Peer-to-Peer Vibes</a></li>
+                <li>
+                    <a href="#final-thoughts-two-philosophies-two-worlds" aria-label="Final Thoughts: Two Philosophies, Two Worlds">Final Thoughts: Two Philosophies, Two Worlds</a><ul>
+                        
+                <li>
+                    <a href="#openshift-the-stable-predictable-way" aria-label="OpenShift: The “Stable, Predictable” Way">OpenShift: The “Stable, Predictable” Way</a></li>
+                <li>
+                    <a href="#spegel-the-fast-and-distributed-way" aria-label="Spegel: The “Fast and Distributed” Way">Spegel: The “Fast and Distributed” Way</a></li></ul>
+                </li>
+                <li>
+                    <a href="#tldr-what-you-can-do-on-openshift" aria-label="TL;DR: What You Can Do on OpenShift">TL;DR: What You Can Do on OpenShift</a></li>
+                <li>
+                    <a href="#would-i-use-spegel" aria-label="Would I Use Spegel?">Would I Use Spegel?</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h1 id="what-i-learned-about-image-caching-from-a-youtube-rabbit-hole-openshift-vs-spegel-and-why-spegel-isnt-for-cri-o">What I Learned About Image Caching From a YouTube Rabbit Hole: OpenShift vs Spegel (and Why Spegel Isn’t for CRI-O)<a hidden class="anchor" aria-hidden="true" href="#what-i-learned-about-image-caching-from-a-youtube-rabbit-hole-openshift-vs-spegel-and-why-spegel-isnt-for-cri-o">#</a></h1>
+<p><em>Ever pushed a new Docker image with the same tag, deployed it, and… nothing changed? Yep. Been there. Here&rsquo;s what I found out - and a really cool tool I wish worked on OpenShift.</em></p>
+<hr>
+<h2 id="so-why-isnt-my-new-code-showing-up">So&hellip; Why Isn’t My New Code Showing Up?<a hidden class="anchor" aria-hidden="true" href="#so-why-isnt-my-new-code-showing-up">#</a></h2>
+<p>Let’s set the scene. You’re working on OpenShift, you build a new image with the same tag (<code>v1.0.0</code>, <code>latest</code>, whatever), push it, redeploy, and your app is still doing the old stuff.</p>
+<p>It’s one of those classic “what the hell is going on?” moments.</p>
+<p>Turns out - it’s all about <strong>image caching</strong>, and OpenShift is playing by its own rules (for good reasons).</p>
+<hr>
+<h2 id="the-real-reason-openshift-caches-images-and-its-not-a-bug">The Real Reason: OpenShift Caches Images (and It’s Not a Bug)<a hidden class="anchor" aria-hidden="true" href="#the-real-reason-openshift-caches-images-and-its-not-a-bug">#</a></h2>
+<p>Here’s the deal: OpenShift (like Kubernetes in general) doesn&rsquo;t automatically pull updated images with the same tag unless you tell it to.</p>
+<h3 id="tldr">TL;DR:<a hidden class="anchor" aria-hidden="true" href="#tldr">#</a></h3>
+<ul>
+<li><strong>If the image tag is <code>latest</code></strong>: OpenShift sets <code>imagePullPolicy: Always</code></li>
+<li><strong>Any other tag?</strong>: It defaults to <code>IfNotPresent</code>, meaning “don’t pull again if I already have this tag locally.”</li>
+</ul>
+<p>So when you push a new image with <code>v1.0.0</code>, OpenShift is like: “Cool, I already have <code>v1.0.0</code> cached. I’m good.” And your changes? Nowhere in sight.</p>
+<p><a href="https://docs.redhat.com/en/documentation/openshift_container_platform/4.8/html/images/managing-images#image-pull-policy">OpenShift Docs: Managing container images</a></p>
+<hr>
+<h2 id="why-this-actually-makes-sense-but-still-hurts">Why This Actually Makes Sense (But Still Hurts)<a hidden class="anchor" aria-hidden="true" href="#why-this-actually-makes-sense-but-still-hurts">#</a></h2>
+<p>This behavior isn’t dumb - it’s deliberate:</p>
+<ul>
+<li><strong>Faster pod startup</strong></li>
+<li><strong>Reduced registry bandwidth</strong></li>
+<li><strong>Lower pull costs</strong></li>
+<li><strong>More reliable startup when the registry is flaky</strong></li>
+</ul>
+<p>It’s just not what you expect when you&rsquo;re in the middle of debugging and nothing looks like it&rsquo;s changing.</p>
+<hr>
+<h2 id="then-i-found-spegel-on-youtube">Then I Found Spegel… on YouTube<a hidden class="anchor" aria-hidden="true" href="#then-i-found-spegel-on-youtube">#</a></h2>
+<p>So there I was, doing the usual late-night YouTube spiral, when I randomly stumbled across Spegel in this video titled <a href="https://youtu.be/TsejK1D4y5k?feature=shared">Microsoft Tried To Steal A Project And Almost Got Away With It&hellip;</a> - and yeah, it got interesting real fast. A cool open-source project github.com/spegel-org/spegel</p>
+<p>It does something clever: <strong>turns your cluster into a peer-to-peer image-sharing network.</strong> Every node becomes a tiny registry, so when one node has the image, others can grab it from there - <strong>no need to go to an external registry</strong> every time.</p>
+<p>Here’s what caught my attention:</p>
+<ul>
+<li><strong>Super fast deployments</strong> (especially for larger images)</li>
+<li><strong>Cluster-wide image caching</strong></li>
+<li><strong>Reduces external registry hits</strong></li>
+<li><strong>Works transparently with existing workflows</strong></li>
+</ul>
+<hr>
+<h2 id="why-spegel-isnt-available-in-openshift">Why Spegel Isn&rsquo;t Available in OpenShift<a hidden class="anchor" aria-hidden="true" href="#why-spegel-isnt-available-in-openshift">#</a></h2>
+<p>Now here’s the twist.</p>
+<p>I got super excited, then realized&hellip; <strong>Spegel doesn&rsquo;t work on OpenShift</strong>. And here&rsquo;s why:</p>
+<h3 id="its-all-about-container-runtimes-containerd-vs-cri-o">It’s all about container runtimes: <code>containerd</code> vs <code>CRI-O</code><a hidden class="anchor" aria-hidden="true" href="#its-all-about-container-runtimes-containerd-vs-cri-o">#</a></h3>
+<ul>
+<li><strong>Spegel depends on <code>containerd</code></strong> to manage the local image cache and registry mirroring.</li>
+<li><strong>OpenShift uses <code>CRI-O</code></strong> as its default container runtime - chosen for its Kubernetes focus, tight SELinux integration, and security posture.</li>
+</ul>
+<p>While <code>containerd</code> is a CNCF project with rich features for pluggable registries, <code>CRI-O</code> is <strong>much more minimal</strong> and doesn&rsquo;t expose the same image-layer APIs that Spegel hooks into.</p>
+<p><a href="https://docs.openshift.com/container-platform/latest/architecture/architecture-rhcos.html#rhcos-about-virt-extensions_architecture-rhcos">Why OpenShift uses CRI-O</a></p>
+<p>So, unless OpenShift shifts to <code>containerd</code> (which is unlikely), tools like Spegel just aren&rsquo;t compatible out-of-the-box.</p>
+<hr>
+<h2 id="openshifts-more-traditional-approach">OpenShift&rsquo;s More Traditional Approach<a hidden class="anchor" aria-hidden="true" href="#openshifts-more-traditional-approach">#</a></h2>
+<p>OpenShift’s image caching is still pretty robust, just… different. It leans on:</p>
+<ul>
+<li><strong>Image streams</strong>: OpenShift’s own abstraction for managing image tags and versions
+<a href="https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html/images/managing-image-streams">OpenShift Docs: Image Streams</a></li>
+<li><strong>Immutable tags</strong>: You should really stop reusing the same tag for different images 😅</li>
+<li><strong>Explicit pull policies</strong>: You can override the default caching by doing this:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myapp</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">image</span>: <span style="color:#ae81ff">myregistry.com/myapp:v1.0.0</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">imagePullPolicy</span>: <span style="color:#ae81ff">Always</span>
+</span></span></code></pre></div><p>Or better, just use unique tags for every build:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker build -t myapp:<span style="color:#e6db74">${</span>GIT_COMMIT<span style="color:#e6db74">}</span> .
+</span></span><span style="display:flex;"><span>docker push myapp:<span style="color:#e6db74">${</span>GIT_COMMIT<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><hr>
+<h2 id="spegels-peer-to-peer-vibes">Spegel’s Peer-to-Peer Vibes<a hidden class="anchor" aria-hidden="true" href="#spegels-peer-to-peer-vibes">#</a></h2>
+<p>If you&rsquo;re running vanilla Kubernetes or something like K3s with <code>containerd</code>, Spegel is amazing. It gives you:</p>
+<ul>
+<li><strong>Instant image access</strong> across the cluster</li>
+<li><strong>Automatic optimization</strong></li>
+<li><strong>Registry-free local pulls</strong></li>
+<li><strong>Zero-cost bandwidth reuse</strong></li>
+</ul>
+<p>No more waiting for a 1GB image to pull for the 20th time from Docker Hub.</p>
+<p><a href="https://github.com/spegel-org/spegel">Spegel GitHub Project</a></p>
+<hr>
+<h2 id="final-thoughts-two-philosophies-two-worlds">Final Thoughts: Two Philosophies, Two Worlds<a hidden class="anchor" aria-hidden="true" href="#final-thoughts-two-philosophies-two-worlds">#</a></h2>
+<p>This whole deep dive showed me how OpenShift and Spegel represent two very different takes on the same problem:</p>
+<h3 id="openshift-the-stable-predictable-way">OpenShift: The “Stable, Predictable” Way<a hidden class="anchor" aria-hidden="true" href="#openshift-the-stable-predictable-way">#</a></h3>
+<ul>
+<li>Relies on tags being <strong>immutable</strong></li>
+<li>Optimized for <strong>enterprise-grade stability</strong></li>
+<li>Makes developers responsible for versioning and caching logic</li>
+</ul>
+<h3 id="spegel-the-fast-and-distributed-way">Spegel: The “Fast and Distributed” Way<a hidden class="anchor" aria-hidden="true" href="#spegel-the-fast-and-distributed-way">#</a></h3>
+<ul>
+<li>Cluster becomes its own mini-registry</li>
+<li><strong>Smart and automatic</strong> caching via P2P</li>
+<li>Geared for <strong>speed, resilience, and cost reduction</strong></li>
+</ul>
+<hr>
+<h2 id="tldr-what-you-can-do-on-openshift">TL;DR: What You Can Do on OpenShift<a hidden class="anchor" aria-hidden="true" href="#tldr-what-you-can-do-on-openshift">#</a></h2>
+<ol>
+<li><strong>Don’t reuse tags</strong> - Use something like a Git SHA or timestamp</li>
+<li><strong>Set <code>imagePullPolicy: Always</code></strong> when you <em>really</em> need to force an update</li>
+<li><strong>Leverage ImageStreams</strong> if you’re doing tag promotion workflows</li>
+<li><strong>Understand your runtime</strong>  -  tools like Spegel won’t work with CRI-O</li>
+</ol>
+<hr>
+<h2 id="would-i-use-spegel">Would I Use Spegel?<a hidden class="anchor" aria-hidden="true" href="#would-i-use-spegel">#</a></h2>
+<p>Absolutely, if I were running containerd-based clusters. It’s clever, fast, and fits well in test/staging or self-hosted production.</p>
+<p>But for OpenShift? It’s not the right tool. And that’s fine. OpenShift gives me a more secure, enterprise-grade runtime and tools like ImageStreams that, once you get used to them, work pretty well.</p>
+<p>Sometimes the trade-offs are worth it.</p>
+<hr>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2025 <a href="https://arunaideepan.github.io/">arunaiDeepan</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
